@@ -42,14 +42,14 @@ export default function App() {
 
       {/* Card */}
       <div className="w-full bg-sky-400 p-5 mt-10 rounded-xl shadow-xl">
-        <div className="flex items-center  gap-3 text-lg text-white text-shadow font-bold">
+        <div className="flex items-center  gap-3 text-md text-white text-shadow font-bold">
           <FaWallet />
           <p>Wallet</p>
         </div>
         <div className="my-10 flex justify-between">
           <div className="flex gap-4">
-            <h1 className="text-white text-4xl font-semibold ">Rp</h1>
-            <h1 className="font-semibold text-4xl text-white">
+            <h1 className="text-white text-2xl font-semibold ">Rp</h1>
+            <h1 className="font-semibold text-2xl text-white">
               {showWallet ? formatMoney(wallet) : "*******"}
             </h1>
           </div>
@@ -60,7 +60,7 @@ export default function App() {
                 setEye(false);
               }}
             >
-              <FaEye className="text-white text-xl cursor-pointer" />
+              <FaEye className="text-white text-md cursor-pointer" />
             </button>
           ) : (
             <button
@@ -69,12 +69,12 @@ export default function App() {
                 setEye(true);
               }}
             >
-              <FaEyeSlash className="text-white text-xl cursor-pointer" />
+              <FaEyeSlash className="text-white text-md cursor-pointer" />
             </button>
           )}
         </div>
         <div className="w-full">
-          <p className="text-md text-white">
+          <p className="text-sm text-white">
             Savings: Rp {showWallet ? formatMoney(savings) : "*******"}
           </p>
         </div>
