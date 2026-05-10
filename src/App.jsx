@@ -36,7 +36,7 @@ export default function App() {
       {/* Card */}
       <div className="w-full bg-sky-400 p-5 mt-10 rounded-xl">
         <h1 className="text-lg text-white text-shadow font-bold">Wallet</h1>
-        <div className="my-16 flex justify-between">
+        <div className="my-13 flex justify-between">
           <div className="flex gap-4">
             <h1 className="text-white text-4xl font-semibold ">Rp</h1>
             <h1 className="font-semibold text-4xl text-white">
