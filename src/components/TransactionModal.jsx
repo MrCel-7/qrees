@@ -14,9 +14,9 @@ export default function TransactionModal({ onClose, onAdd, myWallet }) {
   }
 
   const handleSubmit = () => {
-    if (!amount) return;
+    if (num <= 0) return;
 
-    onAdd(type, amount);
+    onAdd(type, num);
 
     onClose();
   };
@@ -90,7 +90,10 @@ export default function TransactionModal({ onClose, onAdd, myWallet }) {
           >
             <h1 className="text-xl font-bold text-white">Clear</h1>
           </div>
-          <div className="flex py-2 cursor-pointer hover:bg-green-400 bg-green-500 rounded-xl w-full justify-center">
+          <div
+            className="flex py-2 cursor-pointer hover:bg-green-400 bg-green-500 rounded-xl w-full justify-center"
+            onClick={handleSubmit}
+          >
             <h1 className="text-xl font-bold text-white">Submit</h1>
           </div>
         </div>

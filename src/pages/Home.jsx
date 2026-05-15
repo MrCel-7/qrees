@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   FaBell,
@@ -13,7 +13,47 @@ import TransactionModal from "../components/TransactionModal";
 export default function Home() {
   const username = "Marcel Wang";
   const userRole = "Master";
-  const wallet = 10000;
+
+  // Load from localstorage
+  const [wallet, setWallet] = useState(() => {
+    return Number(localStorage.getItem("wallet")) || 0;
+  });
+
+  const [transactions, setTransactions] = useState(() => {
+    return JSON.parse(localStorage.getItem("transactions")) || [];
+  });
+
+  // Save to localstorage
+  useEffect(() => {
+    localStorage.setItem("wallet", wallet);
+  }, [wallet]);
+
+  useEffect(() => {
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+  }, [transactions]);
+
+  // Add transaction
+  const handleAddTransaction = (type, amount) => {
+    const transaction = {
+      id: Date.now(),
+      type,
+      amount,
+      createdAt: new Date(),
+    };
+
+    // Update wallet
+    if (type === "income") {
+      setWallet((prev) => prev + amount);
+    }
+
+    if (type === "expense") {
+      setWallet((prev) => prev - amount);
+    }
+
+    // Save transaction
+    setTransactions((prev) => [transaction, ...prev]);
+  };
+
   const savings = 2000000;
 
   const [showWallet, setShowWallet] = useState(false);
@@ -109,6 +149,7 @@ export default function Home() {
       {showModal && (
         <TransactionModal
           myWallet={wallet}
+          onAdd={handleAddTransaction}
           onClose={() => setShowModal(false)}
         />
       )}
