@@ -33,7 +33,7 @@ export default function Toast({
       clearTimeout(hideTimer);
       clearTimeout(removeTimer);
     };
-  }, [message, duration, onClose]);
+  }, [message, duration]);
 
   if (!message) return null;
 
@@ -46,7 +46,7 @@ export default function Toast({
 
   return (
     <div
-      className={`fixed right-5 rounded-xl bottom-5 flex overflow-hidden flex-col z-50 transition-all duration-300 ${visible ? "translate-x-0 opacity-100" : "translate-x-[120%] opacity-0"}`}
+      className={`rounded-xl flex overflow-hidden flex-col transition-all duration-300 ${visible ? "translate-x-0 opacity-100" : "translate-x-[120%] opacity-0"}`}
     >
       <div className="w-[280px] min-h-[80px] gap-2 flex bg-white shadow-xl h-full">
         <div className={`${bgColor} flex flex-1 items-center justify-center`}>

@@ -7,7 +7,7 @@ export default function TransactionModal({
   onAdd,
   myWallet,
   type,
-  setToast,
+  addToast,
 }) {
   const [num, setNum] = useState(0);
 
@@ -22,23 +22,20 @@ export default function TransactionModal({
 
     // Expense validation
     if (type === "expense" && num > myWallet) {
-      setToast({
-        message: "Insufficient wallet balance!",
-        type: "error",
-      });
+      addToast("Insufficient wallet balance!", "error");
+      setNum(0);
       return;
     }
 
     onAdd(type, num);
 
     // Success toast
-    setToast({
-      message:
-        type === "income"
-          ? "Income added successfully!"
-          : "Expense added successfully!",
-      type: "success",
-    });
+    addToast(
+      type === "income"
+        ? "Income added successfully!"
+        : "Expense added successfully!",
+      "success",
+    );
 
     onClose();
   };

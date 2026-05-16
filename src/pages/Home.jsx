@@ -62,27 +62,36 @@ export default function Home() {
 
   const [modalType, setModalType] = useState(false);
 
-  const [toast, setToast] = useState({
-    message: "",
-    type: "",
-  });
+  const [toasts, setToasts] = useState([]);
 
   function formatMoney(number) {
     return number.toLocaleString("id-ID");
   }
 
+  function addToast(message, type = "success") {
+    const newToast = {
+      id: Date.now(),
+      message,
+      type,
+    };
+
+    setToasts((prev) => [...prev, newToast]);
+  }
+
   return (
     <div className="w-full h-screen flex flex-col px-7">
-      <Toast
-        message={toast.message}
-        type={toast.type}
-        onClose={() =>
-          setToast({
-            message: "",
-            type: "",
-          })
-        }
-      />
+      <div className="fixed right-5 bottom-5 z-50 flex flex-col gap-3">
+        {toasts.map((toast) => (
+          <Toast
+            key={toast.id}
+            message={toast.message}
+            type={toast.type}
+            onClose={() => {
+              setToasts((prev) => prev.filter((item) => item.id !== toast.id));
+            }}
+          />
+        ))}
+      </div>
       {/* Header */}
       <div className="w-full py-5 flex justify-between items-center">
         <div className="flex gap-5 items-center">
@@ -171,11 +180,9 @@ export default function Home() {
           myWallet={wallet}
           onAdd={handleAddTransaction}
           onClose={() => setModalType(false)}
-          setToast={setToast}
+          addToast={addToast}
         />
       )}
-
-      <Toast />
 
       {/* Recent Transaction */}
       <div className="w-full flex flex-col">
