@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 import TransactionModal from "../components/TransactionModal";
+import Toast from "../components/Toast";
 
 export default function Home() {
   const username = "Marcel Wang";
@@ -59,7 +60,12 @@ export default function Home() {
   const [showWallet, setShowWallet] = useState(false);
   const [eye, setEye] = useState(true);
 
-  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState(false);
+
+  const [toast, setToast] = useState({
+    message: "",
+    type: "",
+  });
 
   function formatMoney(number) {
     return number.toLocaleString("id-ID");
@@ -67,6 +73,16 @@ export default function Home() {
 
   return (
     <div className="w-full h-screen flex flex-col px-7">
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        onClose={() =>
+          setToast({
+            message: "",
+            type: "",
+          })
+        }
+      />
       {/* Header */}
       <div className="w-full py-5 flex justify-between items-center">
         <div className="flex gap-5 items-center">
@@ -128,13 +144,16 @@ export default function Home() {
       <div className="flex flex-col mt-5 mb-10 w-full gap-5">
         <div className="grid grid-cols-2 gap-5">
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() => setModalType("income")}
             className="shadow-xl py-2 flex items-center justify-center gap-2 cursor-pointer text-white font-bold bg-green-400 rounded-xl"
           >
             <FaArrowTrendUp />
             <p className="text-md">Income</p>
           </button>
-          <button className="shadow-xl py-2 flex items-center justify-center gap-2 cursor-pointer text-white font-bold bg-red-400 rounded-xl">
+          <button
+            onClick={() => setModalType("expense")}
+            className="shadow-xl py-2 flex items-center justify-center gap-2 cursor-pointer text-white font-bold bg-red-400 rounded-xl"
+          >
             <FaArrowTrendDown />
             <p className="text-md">Expense</p>
           </button>
@@ -146,13 +165,17 @@ export default function Home() {
       </div>
 
       {/* Modal Form */}
-      {showModal && (
+      {modalType && (
         <TransactionModal
+          type={modalType}
           myWallet={wallet}
           onAdd={handleAddTransaction}
-          onClose={() => setShowModal(false)}
+          onClose={() => setModalType(false)}
+          setToast={setToast}
         />
       )}
+
+      <Toast />
 
       {/* Recent Transaction */}
       <div className="w-full flex flex-col">

@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { FaArrowTrendUp } from "react-icons/fa6";
+import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 import { IoBackspace, IoClose } from "react-icons/io5";
 
-export default function TransactionModal({ onClose, onAdd, myWallet }) {
-  const [type, setType] = useState("income");
-
+export default function TransactionModal({
+  onClose,
+  onAdd,
+  myWallet,
+  type,
+  setToast,
+}) {
   const [num, setNum] = useState(0);
 
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, "000", 0];
@@ -16,7 +20,25 @@ export default function TransactionModal({ onClose, onAdd, myWallet }) {
   const handleSubmit = () => {
     if (num <= 0) return;
 
+    // Expense validation
+    if (type === "expense" && num > myWallet) {
+      setToast({
+        message: "Insufficient wallet balance!",
+        type: "error",
+      });
+      return;
+    }
+
     onAdd(type, num);
+
+    // Success toast
+    setToast({
+      message:
+        type === "income"
+          ? "Income added successfully!"
+          : "Expense added successfully!",
+      type: "success",
+    });
 
     onClose();
   };
@@ -67,8 +89,12 @@ export default function TransactionModal({ onClose, onAdd, myWallet }) {
           </div>
           <div className="flex flex-col items-end">
             <div className="flex w-fit gap-3 items-center">
-              <FaArrowTrendUp className="text-green-400" />
-              <h1 className="font-bold uppercase">income</h1>
+              {type === "income" ? (
+                <FaArrowTrendUp className="text-green-400" />
+              ) : (
+                <FaArrowTrendDown className="text-red-400" />
+              )}
+              <h1 className="font-bold uppercase">{type}</h1>
             </div>
             <div className="w-full flex justify-end h-fit py-1">
               <p className="text-sm">Your wallet: Rp{formatMoney(myWallet)}</p>
